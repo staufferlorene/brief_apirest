@@ -38,14 +38,15 @@ app.post("/produits", (req, res) => {
 // PUT
 
 app.put("/produits/:id", (req, res) => {
-    const id = req.params;
     const produitId = parseInt(req.params.id);
     let produit = produits.find(produit => produit.id === produitId);
 
     if (!produit) {
         return res.status(404).json({ message: 'Produit non trouvé' });
     }
-
+    produit.nom = req.body.nom;
+    produit.prix = req.body.prix;
+    produit.quantite = req.body.quantite;
     res.status(200).json(produit);
 });
 
