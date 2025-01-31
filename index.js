@@ -56,15 +56,14 @@ app.put("/produits/:id", (req, res) => {
 
 
 app.delete('/produits/:id', (req, res) => {
-    const produitId = parseInt(req.params.id);  // Récupère et convertit l'ID en entier
-    const produitIndex = produits.findIndex(produit => produit.id === produitId);  // Recherche l'index du produit
+    const id = parseInt(req.params.id);
+    let produit = produits.find(parking => parking.id === id);
 
-    if (produitIndex === -1) {
-        return res.status(404).json({ message: 'Produit non trouvé' });  // Si le produit n'existe pas affiche ce message
-    }
-
-    produits.splice(produitIndex, 1);  // Supprime le produit à l'index trouvé
-    res.status(200).json(produits);  // Renvoie la liste mise à jour des produits
+   produits.splice(produits.indexOf(produit), 1);
+    produit.nom = req.body.nom;
+    produit.prix = req.body.prix;
+    produit.quantite = req.body.quantite;
+    res.status(200).json(produits);
 });
 
 
