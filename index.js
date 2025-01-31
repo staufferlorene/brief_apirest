@@ -20,16 +20,17 @@ app.get("/produits", (req,res) => {
 })
 
 
+
 // POST
 
 app.post("/produits", (req, res) => {
 
-    const newProduit = req.body;
-    if (!newProduit || !newProduit.id || !newProduit.nom) { // Vérification des champs
+    const newProduit = req.body; // Déclaration constante
+    if (!newProduit || !newProduit.id || !newProduit.nom) { // Vérification des champs, si produit non trouvé afficher le message
         return res.status(400).json({ message: 'Invalid produits data' });
     }
 
-    produits.push(newProduit); //
+    produits.push(newProduit); // pousser le nouveau produit ajouté
     res.status(201).json(newProduit);
 });
 
@@ -38,12 +39,14 @@ app.post("/produits", (req, res) => {
 // PUT
 
 app.put("/produits/:id", (req, res) => {
-    const produitId = parseInt(req.params.id);
-    let produit = produits.find(produit => produit.id === produitId);
+
+    const produitId = parseInt(req.params.id); // Récupération de l'id
+    let produit = produits.find(produit => produit.id === produitId); // Màj du produit
 
     if (!produit) {
-        return res.status(404).json({ message: 'Produit non trouvé' });
+        return res.status(404).json({ message: 'Produit non trouvé' }); // Si produit non trouvé afficher le message
     }
+    // Sinon si produit trouvé le màj
     produit.nom = req.body.nom;
     produit.prix = req.body.prix;
     produit.quantite = req.body.quantite;
@@ -56,17 +59,16 @@ app.put("/produits/:id", (req, res) => {
 
 
 app.delete('/produits/:id', (req, res) => {
-    const id = parseInt(req.params.id);
+
+    const id = parseInt(req.params.id); // Récupération de l'id
     let produit = produits.find(parking => parking.id === id);
 
-   produits.splice(produits.indexOf(produit), 1);
+    produits.splice(produits.indexOf(produit), 1); // Suppression du produit
     produit.nom = req.body.nom;
     produit.prix = req.body.prix;
     produit.quantite = req.body.quantite;
     res.status(200).json(produits);
 });
-
-
 
 
 
