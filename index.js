@@ -61,12 +61,9 @@ app.put("/produits/:id", (req, res) => {
 app.delete('/produits/:id', (req, res) => {
 
     const id = parseInt(req.params.id); // Récupération de l'id
-    let produit = produits.find(parking => parking.id === id);
+    let produit = produits.findIndex(produit => produit.id === id);
 
-    produits.splice(produits.indexOf(produit), 1); // Suppression du produit
-    produit.nom = req.body.nom;
-    produit.prix = req.body.prix;
-    produit.quantite = req.body.quantite;
+    produits.splice(produit); // Suppression du produit
     res.status(200).json(produits);
 });
 
